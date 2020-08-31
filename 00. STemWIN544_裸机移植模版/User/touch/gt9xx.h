@@ -25,6 +25,8 @@
 #endif
 
 
+#define UPDATE_CONFIG    0    // 1 ：更新配置    0 ：不更新配置
+
 /* 表示读数据 */ 
 #define I2C_M_RD		0x0001	
  /*

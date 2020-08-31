@@ -657,6 +657,8 @@ Output:
     //获取触摸IC的型号
     GTP_Read_Version(); 
 
+#if UPDATE_CONFIG
+
 		config = (uint8_t *)malloc (GTP_CONFIG_MAX_LENGTH + GTP_ADDR_LENGTH);
 
 		config[0] = GTP_REG_CONFIG_DATA >> 8;
@@ -706,7 +708,16 @@ Output:
     check_sum = 0;
 
     /* 计算check sum校验值 */
-    if(touchIC == GT911 || touchIC == GT9157)
+    if(touchIC == GT911)
+    {
+        for (i = GTP_ADDR_LENGTH; i < cfg_num; i++)
+        {
+            check_sum += (config[i] & 0xFF);
+        }
+        config[ cfg_num] = (~(check_sum & 0xFF)) + 1; 	//checksum
+        config[ cfg_num+1] =  1; 						//refresh 配置更新标志
+    }
+    else if(touchIC == GT9157)
     {
         for (i = GTP_ADDR_LENGTH; i < cfg_num+GTP_ADDR_LENGTH; i++)
         {
@@ -767,6 +778,9 @@ Output:
     	    if(i==cfg_num+GTP_ADDR_LENGTH)
 	    		GTP_DEBUG("Config success ! i = %d ",i);
 	}
+#endif
+  free(config);
+
 #endif
     I2C_GTP_IRQEnable();
     
