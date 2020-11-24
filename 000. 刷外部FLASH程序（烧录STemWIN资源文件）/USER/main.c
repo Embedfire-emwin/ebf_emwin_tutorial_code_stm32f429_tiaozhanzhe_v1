@@ -23,7 +23,7 @@
 #include "./Bsp/led/bsp_led.h" 
 #include "./Bsp/usart/bsp_debug_usart.h"
 #include "ff.h"
-#include "./fatfs/drivers/fatfs_flash_spi.h"
+//#include "./fatfs/drivers/fatfs_flash_spi.h"
 #include "./res_mgr/res_mgr.h"
 #include "./flash/bsp_spi_flash.h"
 
