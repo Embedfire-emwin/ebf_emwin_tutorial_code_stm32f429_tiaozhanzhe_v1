@@ -49,6 +49,7 @@ FRESULT result;
 FILINFO fno;
 DIR dir;
 
+uint8_t gt9xx_flag = 0;
 /*
 *************************************************************************
 *                             函数声明
@@ -62,6 +63,8 @@ DIR dir;
   */
 int main(void)
 {
+  uint8_t temp = 0;
+  
   /* CRC和emWin没有关系，只是他们为了库的保护而做的
    * 这样STemWin的库只能用在ST的芯片上面，别的芯片是无法使用的。
    */
@@ -75,7 +78,7 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
   
   /* 启动系统滴答定时器 */
-  SysTick_Init();
+  SysTick_Init();  
 	/* LED 初始化 */
 	LED_GPIO_Config();
 	/* 串口初始化	*/
@@ -83,7 +86,12 @@ int main(void)
 	/* 蜂鸣器初始化 */
 	Beep_GPIO_Config();
 	/* 触摸屏初始化 */
-	GTP_Init_Panel();
+	temp = GTP_Init_Panel();
+  if(temp == 0)
+  {
+    gt9xx_flag = 1;
+  }
+
 //	/* 挂载文件系统，挂载时会对SD卡初始化 */
 //  result = f_mount(&fs,"0:",1);
 //	if(result != FR_OK)

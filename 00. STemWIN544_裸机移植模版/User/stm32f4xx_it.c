@@ -44,6 +44,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+extern uint8_t gt9xx_flag;
 /* Private function prototypes -----------------------------------------------*/
 extern void TimingDelay_Decrement(void);
 extern void LTDC_ISR_Handler(void);
@@ -144,6 +145,17 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+  static uint8_t i = 0;
+  
+  if(gt9xx_flag == 1)
+  {
+    i++;
+    if(i == 20)
+    {
+      GT9xx_GetOnePiont();
+      i = 0;
+    }
+  }
 	TimingDelay_Decrement();
 }
 
@@ -184,7 +196,7 @@ void GTP_IRQHandler(void)
 	if(EXTI_GetITStatus(GTP_INT_EXTI_LINE) != RESET) //确保是否产生了EXTI Line中断
 	{
     /* 也可以改成定时调用 */
-    GT9xx_GetOnePiont();
+//    GT9xx_GetOnePiont();
 		EXTI_ClearITPendingBit(GTP_INT_EXTI_LINE);     //清除中断标志位
 	}  
 }

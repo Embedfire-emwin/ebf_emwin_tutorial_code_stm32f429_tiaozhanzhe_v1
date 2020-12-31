@@ -39,8 +39,8 @@
 /**
   * @brief  FMC SDRAM 突发读取特性
   */  
-#define SDRAM_READBURST    FMC_Read_Burst_Disable    /* Default configuration used with LCD */
-/* #define SDRAM_READBURST    FMC_Read_Burst_Enable  */
+//#define SDRAM_READBURST    FMC_Read_Burst_Disable    /* Default configuration used with LCD */
+#define SDRAM_READBURST    FMC_Read_Burst_Enable
 
 /**
   * @brief  FMC SDRAM Bank Remap
